@@ -87,7 +87,7 @@ angular.module('myApp.controllers', [])
 
     .controller('CustomerViewCtrl', ['$scope', 'loginService', '$location', function($scope, loginService, $location) {
 
-        var ref = new Firebase('https://orderupp.firebaseio.com/LOCATION/1/ACTIVE_ORDER');
+        var ref = new Firebase('https://chompchomp.firebaseio.com/LOCATION/1/ACTIVE_ORDER');
 
 
         var canvas = document.getElementById("myCanvas");
@@ -434,7 +434,7 @@ angular.module('myApp.controllers', [])
 
     .controller('KitchenCtrl', ['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
 
-        var ref = new Firebase('https://orderupp.firebaseio.com');
+        var ref = new Firebase('https://chompchomp.firebaseio.com');
 
         var active_ordersRef = ref.child('LOCATION/1/ACTIVE_ORDER');
 
@@ -538,7 +538,7 @@ angular.module('myApp.controllers', [])
     .controller('KitchenTouchCtrl', ['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
 
 
-        var ref = new Firebase('https://orderupp.firebaseio.com');
+        var ref = new Firebase('https://chompchomp.firebaseio.com');
 
         var active_ordersRef = ref.child('LOCATION/1/ACTIVE_ORDER');
         var archive_ordersRef = ref.child('LOCATION/1/ARCHIVE_ORDER');
@@ -605,7 +605,7 @@ angular.module('myApp.controllers', [])
     .controller('ArchiveCtrl', ['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
 
 
-        var ref = new Firebase('https://orderupp.firebaseio.com');
+        var ref = new Firebase('https://chompchomp.firebaseio.com');
 
         var active_ordersRef = ref.child('LOCATION/1/ACTIVE_ORDER');
         var archive_ordersRef = ref.child('LOCATION/1/ARCHIVE_ORDER').limit(20);
@@ -635,7 +635,7 @@ angular.module('myApp.controllers', [])
     .controller('OrderCtrl', ['$scope', '$firebase', 'FBURL','syncData', '$modal', '$log', 'firebaseRef', function($scope, $firebase, FBURL, syncData, $modal, $log, firebaseRef)
     {
         //Get Root Ref
-        var ref = new Firebase("https://orderupp.firebaseio.com/");
+        var ref = new Firebase("https://chompchomp.firebaseio.com/");
 
         //3 way bind scope.menu to MENU table
         syncData('LOCATION/1/MENU_ITEM').$bind($scope, 'menu');
