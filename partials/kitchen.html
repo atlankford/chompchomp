@@ -1,5 +1,4 @@
-<div ng-include="'partials/navbar.html'"></div>
-<div ng-controller="KitchenCtrl">
+<div ng-controller="KitchenCtrl" >
     <div class="orderContainer">
 
         <div class="order-ticket" ng-repeat="(key,item) in orders | limitTo: 5 " >
@@ -40,4 +39,5 @@
             </label>
         </div>
     </div>
+    <a href="#/dashboard.html" class="menu-back-button"><i class="fa fa-tachometer"></i></a>
 </div>

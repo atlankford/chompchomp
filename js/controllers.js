@@ -305,7 +305,7 @@ angular.module('myApp.controllers', [])
             addCircle(undefined, undefined, thisradius, name)
         })
 
-        syncData('LOCATION/1/ACTIVE_ORDER').$bind($scope, 'circles');
+//        syncData('LOCATION/1/ACTIVE_ORDER').$bind($scope, 'circles');
 
 
 
@@ -673,7 +673,7 @@ angular.module('myApp.controllers', [])
         $scope.addItem = function(x)
         {
             $scope.current_order.push({name: x.name, description: x.description, price: x.price,
-                special: x.special, category: x.category, side: 'Chips', class: x.class});
+                special: x.special, category: x.category, side: 'Chips', class: x.class, icon: x.icon});
             console.log("current order is :" + $scope.current_order);
             $scope.total_price = $scope.total_price + parseFloat(x.price);
         }
