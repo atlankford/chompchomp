@@ -27,8 +27,8 @@ angular.module('myApp.routes', ['ngRoute'])
 
         });
         $routeProvider.when('/menu', {
-            templateUrl: 'partials/menu.html',
-            controller: 'MenuCtrl'
+            templateUrl: 'partials/menu.html'
+
 
         });
         $routeProvider.when('/dashboard', {
