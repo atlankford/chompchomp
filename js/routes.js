@@ -26,10 +26,19 @@ angular.module('myApp.routes', ['ngRoute'])
             templateUrl: 'partials/order.html'
 
         });
+        $routeProvider.when('/sms', {
+            authRequired: true, // must authenticate before viewing this page
+            templateUrl: 'partials/sms.html'
+
+        });
         $routeProvider.when('/menu', {
             templateUrl: 'partials/menu.html'
 
 
+        });
+        $routeProvider.when('/help', {
+            authRequired: true, // must authenticate before viewing this page
+            templateUrl: 'partials/help.html'
         });
         $routeProvider.when('/dashboard', {
             authRequired: true, // must authenticate before viewing this page

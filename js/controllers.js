@@ -85,229 +85,235 @@ angular.module('myApp.controllers', [])
         //TODO
     }]) //end dashboard controller
 
-    .controller('CustomerViewCtrl', ['$scope', 'loginService', '$location', function($scope, loginService, $location) {
+    .controller('CustomerViewCtrl', ['$scope', '$firebase', function($scope,  $firebase) {
 
-        var ref = new Firebase('https://chompchomp.firebaseio.com/LOCATION/1/ACTIVE_ORDER');
+        var ref = new Firebase('https://chompchomp.firebaseio.com');
 
+        var active_ordersRef = ref.child('LOCATION/1/ACTIVE_ORDER').limit(8);
+        var archive_ordersRef = ref.child('LOCATION/1/ARCHIVE_ORDER').limit(8);
 
-        var canvas = document.getElementById("myCanvas");
-        var pause = true;
-        var circle = []; //circles array
-        var isCanvasSupported = false;
-        var context = '';
-        if (canvas.getContext){
-            isCanvasSupported = true;
-            context = canvas.getContext('2d');
-        }
+        $scope.orders = $firebase(active_ordersRef);
+        $scope.archiveItems = $firebase(archive_ordersRef);
 
-        var addCircleBtn = document.getElementById("addCircle");
-        var startBtn = document.getElementById("startAnim");
-        var stopBtn = document.getElementById("stopAnim");
-        var totalCircleBtn = document.getElementById("totalCircles");
-        var aminStatusBtn = document.getElementById("aminStatus");
-        var resetAnimBtn = document.getElementById("resetAnim");
-
-        var radiusWidth = 100;
-        var interTime = 50;
-        var defaultOption = {};
-        defaultOption.x = 100;
-        defaultOption.y = 100;
-
-        var counter;
-        var temp = "Customer Name"
-
-        $scope.circles = circle;
-
-        if(isCanvasSupported){
-//            addCircle();
-            setInterval(function(){
-                if(pause){
-                    animateCircle();
-                }
-            }, interTime);
-            canvas.addEventListener('click', function(e){
-                console.log(e);
-                var x;
-                var y;
-
-                var thisradius = (radiusWidth*Math.random());
-                if (e.offsetX || e.offsetY) {
-                    x = e.offsetX;
-                    y = e.offsetY;
-                }
-                else {
-                    x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                    y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-                }
-                x -= canvas.offsetLeft;
-                y -= canvas.offsetTop;
-
-                console.log(x, y);
-                //addCircle(thisx, thisy, thisradius);
-//                addCircle(x, y, thisradius);
-            }, false);
-
-            if(addCircleBtn){
-                addCircleBtn.addEventListener('click', function(e){
-                    var thisradius = (radiusWidth*Math.random());
-                    addCircle(undefined, undefined, thisradius)
-                }, false);
-            }
-
-            if(startBtn){
-                startBtn.addEventListener('click', function(){
-                    pause = true;
-                    aminStatusChange();
-                },false);
-            }
-
-            if(resetAnimBtn){
-                resetAnimBtn.addEventListener('click', function(){
-                    circle = [];
-                    addCircle();
-                });
-            }
-
-            if(stopBtn){
-                stopBtn.addEventListener('click', function(){
-                    pause = false;
-                    aminStatusChange();
-                },false);
-            }
-            aminStatusChange();
-        }else{
-            alert('Canvas is not supported in you browser.')
-        }
-
-        function degree(value){
-            return value * (Math.PI / 180);
-        }
-
-        function addCircle(x, y, radius, name){
-
-            counter++;
-
-            // If x is not defined
-            if(typeof x == 'undefined'){
-                //get the random position between 1 and canvas.width
-                x = getRandomInt(1,canvas.width);
-            }
-
-            // If y is not defined
-            if(typeof y == 'undefined'){
-                //get the random position between 1 and canvas.height
-                y = getRandomInt(1,canvas.height);
-            }
-
-            // If radius is not defined
-            if(typeof radius == 'undefined'){
-                radius = (radiusWidth*Math.random());
-            }
-
-            // Check if x and y are not in the four corner otherwise the circle will stuck
-            if(x < radius){
-                x = radius;
-            }else if(x > (canvas.width-radius)){
-                x = (canvas.width-radius);
-            }
-
-            if(y < radius){
-                y = radius;
-            }else if(y > (canvas.height-radius)){
-                y = (canvas.height-radius);
-            }
-
-            //add the circle on the place of x and y
-            circle.push({x:x,
-                xvc:(3*Math.random()),
-                y:y,
-                yvc:(3*Math.random()),
-                radius:radius,
-                color: 'rgba(' + (Math.random()*238).toFixed(0) + ', ' +
-                    (Math.random()*238).toFixed(0) + ', ' +
-                    (Math.random()*238).toFixed(0) + ', 1.0)',
-                customer_name: name
-            });
-
-            totalCircle();
-        }
-
-        function animateCircle(){
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            circle.forEach(function(circle){
-                context.beginPath();
-                //context.arc(circle.x, circle.y, circle.radius, degree(0), degree(360), false);
-                context.arc(circle.x, circle.y, circle.radius, degree(0), degree(360), false);
-                context.fillStyle = circle.color;
-                context.closePath();
-                context.fill();
-                context.strokeStyle ='rgba(0,0,0,255)';
-
-                context.font = "bold 16px sans-serif";
-                context.textAlign= "center";
-                context.strokeText(circle.customer_name, circle.x, circle.y)
-
-                changePosition(circle);
-            });
-        }
-
-        function changePosition(circle){
-            if (circle.x + circle.xvc + circle.radius > canvas.width ||
-                circle.x + circle.xvc - circle.radius < 0){
-                circle.xvc = -circle.xvc;
-            }
-
-            if (circle.y + circle.yvc + circle.radius > canvas.height ||
-                circle.y + circle.yvc - circle.radius  < 0) {
-                circle.yvc= -circle.yvc;
-            }
-
-            circle.x += circle.xvc;
-            circle.y += circle.yvc;
-        }
-
-        function totalCircle(){
-            if(totalCircleBtn) totalCircleBtn.innerText  = circle.length;
-        }
-
-        function aminStatusChange(){
-            if(aminStatusBtn) aminStatusBtn.innerText  = (pause == false)?"Stopped":"Running";
-        }
-
-        /**
-         * Returns a random integer between min and max
-         * Using Math.round() will give you a non-uniform distribution!
-         */
-        function getRandomInt (min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-//        start order integration
-
-        ref.once('value', function(ref)
-        {
-            ref.forEach(function(order)
-            {
-
-                var name = order.child('customer').val();
-                var thisradius = (radiusWidth*Math.random());
-                if(order.$index != 0) {
-                    addCircle(undefined, undefined, thisradius, name)
-                }
-            })
-
-        });
-
-        ref.on('value', function(ref)
-        {
-            var thisradius = (radiusWidth*Math.random());
-            var name = ref.child('customer').val();
-            addCircle(undefined, undefined, thisradius, name)
-        })
-
-//        syncData('LOCATION/1/ACTIVE_ORDER').$bind($scope, 'circles');
-
-
+//
+//        var canvas = document.getElementById("myCanvas");
+//        var pause = true;
+//        var circle = []; //circles array
+//        var isCanvasSupported = false;
+//        var context = '';
+//        if (canvas.getContext){
+//            isCanvasSupported = true;
+//            context = canvas.getContext('2d');
+//        }
+//
+//        var addCircleBtn = document.getElementById("addCircle");
+//        var startBtn = document.getElementById("startAnim");
+//        var stopBtn = document.getElementById("stopAnim");
+//        var totalCircleBtn = document.getElementById("totalCircles");
+//        var aminStatusBtn = document.getElementById("aminStatus");
+//        var resetAnimBtn = document.getElementById("resetAnim");
+//
+//        var radiusWidth = 100;
+//        var interTime = 50;
+//        var defaultOption = {};
+//        defaultOption.x = 100;
+//        defaultOption.y = 100;
+//
+//        var counter;
+//        var temp = "Customer Name"
+//
+//        $scope.circles = circle;
+//
+//        if(isCanvasSupported){
+////            addCircle();
+//            setInterval(function(){
+//                if(pause){
+//                    animateCircle();
+//                }
+//            }, interTime);
+//            canvas.addEventListener('click', function(e){
+//                console.log(e);
+//                var x;
+//                var y;
+//
+//                var thisradius = (radiusWidth*Math.random());
+//                if (e.offsetX || e.offsetY) {
+//                    x = e.offsetX;
+//                    y = e.offsetY;
+//                }
+//                else {
+//                    x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+//                    y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+//                }
+//                x -= canvas.offsetLeft;
+//                y -= canvas.offsetTop;
+//
+//                console.log(x, y);
+//                //addCircle(thisx, thisy, thisradius);
+////                addCircle(x, y, thisradius);
+//            }, false);
+//
+//            if(addCircleBtn){
+//                addCircleBtn.addEventListener('click', function(e){
+//                    var thisradius = (radiusWidth*Math.random());
+//                    addCircle(undefined, undefined, thisradius)
+//                }, false);
+//            }
+//
+//            if(startBtn){
+//                startBtn.addEventListener('click', function(){
+//                    pause = true;
+//                    aminStatusChange();
+//                },false);
+//            }
+//
+//            if(resetAnimBtn){
+//                resetAnimBtn.addEventListener('click', function(){
+//                    circle = [];
+//                    addCircle();
+//                });
+//            }
+//
+//            if(stopBtn){
+//                stopBtn.addEventListener('click', function(){
+//                    pause = false;
+//                    aminStatusChange();
+//                },false);
+//            }
+//            aminStatusChange();
+//        }else{
+//            alert('Canvas is not supported in you browser.')
+//        }
+//
+//        function degree(value){
+//            return value * (Math.PI / 180);
+//        }
+//
+//        function addCircle(x, y, radius, name){
+//
+//            counter++;
+//
+//            // If x is not defined
+//            if(typeof x == 'undefined'){
+//                //get the random position between 1 and canvas.width
+//                x = getRandomInt(1,canvas.width);
+//            }
+//
+//            // If y is not defined
+//            if(typeof y == 'undefined'){
+//                //get the random position between 1 and canvas.height
+//                y = getRandomInt(1,canvas.height);
+//            }
+//
+//            // If radius is not defined
+//            if(typeof radius == 'undefined'){
+//                radius = (radiusWidth*Math.random());
+//            }
+//
+//            // Check if x and y are not in the four corner otherwise the circle will stuck
+//            if(x < radius){
+//                x = radius;
+//            }else if(x > (canvas.width-radius)){
+//                x = (canvas.width-radius);
+//            }
+//
+//            if(y < radius){
+//                y = radius;
+//            }else if(y > (canvas.height-radius)){
+//                y = (canvas.height-radius);
+//            }
+//
+//            //add the circle on the place of x and y
+//            circle.push({x:x,
+//                xvc:(3*Math.random()),
+//                y:y,
+//                yvc:(3*Math.random()),
+//                radius:radius,
+//                color: 'rgba(' + (Math.random()*238).toFixed(0) + ', ' +
+//                    (Math.random()*238).toFixed(0) + ', ' +
+//                    (Math.random()*238).toFixed(0) + ', 1.0)',
+//                customer_name: name
+//            });
+//
+//            totalCircle();
+//        }
+//
+//        function animateCircle(){
+//            context.clearRect(0, 0, canvas.width, canvas.height);
+//            circle.forEach(function(circle){
+//                context.beginPath();
+//                //context.arc(circle.x, circle.y, circle.radius, degree(0), degree(360), false);
+//                context.arc(circle.x, circle.y, circle.radius, degree(0), degree(360), false);
+//                context.fillStyle = circle.color;
+//                context.closePath();
+//                context.fill();
+//                context.strokeStyle ='rgba(0,0,0,255)';
+//
+//                context.font = "bold 16px sans-serif";
+//                context.textAlign= "center";
+//                context.strokeText(circle.customer_name, circle.x, circle.y)
+//
+//                changePosition(circle);
+//            });
+//        }
+//
+//        function changePosition(circle){
+//            if (circle.x + circle.xvc + circle.radius > canvas.width ||
+//                circle.x + circle.xvc - circle.radius < 0){
+//                circle.xvc = -circle.xvc;
+//            }
+//
+//            if (circle.y + circle.yvc + circle.radius > canvas.height ||
+//                circle.y + circle.yvc - circle.radius  < 0) {
+//                circle.yvc= -circle.yvc;
+//            }
+//
+//            circle.x += circle.xvc;
+//            circle.y += circle.yvc;
+//        }
+//
+//        function totalCircle(){
+//            if(totalCircleBtn) totalCircleBtn.innerText  = circle.length;
+//        }
+//
+//        function aminStatusChange(){
+//            if(aminStatusBtn) aminStatusBtn.innerText  = (pause == false)?"Stopped":"Running";
+//        }
+//
+//        /**
+//         * Returns a random integer between min and max
+//         * Using Math.round() will give you a non-uniform distribution!
+//         */
+//        function getRandomInt (min, max) {
+//            return Math.floor(Math.random() * (max - min + 1)) + min;
+//        }
+//
+////        start order integration
+//
+//        ref.once('value', function(ref)
+//        {
+//            ref.forEach(function(order)
+//            {
+//
+//                var name = order.child('customer').val();
+//                var thisradius = (radiusWidth*Math.random());
+//                if(order.$index != 0) {
+//                    addCircle(undefined, undefined, thisradius, name)
+//                }
+//            })
+//
+//        });
+//
+//        ref.on('value', function(ref)
+//        {
+//            var thisradius = (radiusWidth*Math.random());
+//            var name = ref.child('customer').val();
+//            addCircle(undefined, undefined, thisradius, name)
+//        })
+//
+////        syncData('LOCATION/1/ACTIVE_ORDER').$bind($scope, 'circles');
+//
+//
 
     }]) //end dashboard controller
 
@@ -430,6 +436,26 @@ angular.module('myApp.controllers', [])
     }])
     //end menu controller
 
+    .controller('HelpCtrl',['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
+
+
+    }])
+    .controller('SmsCtrl',['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
+
+        var ref = new Firebase('https://chompchomp.firebaseio.com/LOCATION/1/GENERAL_SMS');
+
+
+        $scope.tel = '';
+        $scope.message = '';
+
+        $scope.sendSms = function (x,y)
+        {
+            ref.push({tel: x, message: y});
+            $scope.tel = '';
+            $scope.message = '';
+        };
+
+    }])
 
 
     .controller('KitchenCtrl', ['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
@@ -562,7 +588,7 @@ angular.module('myApp.controllers', [])
                 archive_ordersRef.child(orderId).child('ITEM').child(x).set({name: item.name, special: item.special, side: item.side});
             })
             if(item.sms){
-             smsRef.remove();
+                smsRef.remove();
             }
             itemRef.remove();
         };

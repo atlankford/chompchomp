@@ -1,24 +1,29 @@
 
-<div ng-controller="LoginCtrl" class="bg">
+<div ng-controller="LoginCtrl" class="bg" >
     <br>
     <br>
     <br>
-    <form class="form-signin" role="form">
+    <br>
+    <br>
+    <br>
+    <form class="form-signin scrollable" role="form">
         <div class="logo-login">
             <img src="img/logos/logo-white.png" class="login-logo" width="95%">
         </div>
-        <p ng-show="err" class="error">{{err}}</p>
-        <h3 class="form-signin-heading text-center">Employee Login</h3>
-        <input bs-form-control type="email" ng-model="email" label="Email" placeholder="Email">
-        <input bs-form-control type="password" ng-model="pass" label="Password"   placeholder="Password">
-        <switch  bs-form-control label="Remember Me?"
-                 label-class="col-xs-8 col-sm-8 col-lg-8"
-                 class="col-xs-4 col-sm-4 col-lg-4"  ng-model="remember">
-        </switch>
-        <br>
-        <button class="btn btn-primary btn-lg btn-block outline" ng-click="login()" type="submit">
-            Sign in
-        </button>
+        <div class="container">
+            <p ng-show="err" class="error">{{err}}</p>
+            <h3 class="form-signin-heading text-center">Employee Login</h3>
+            <input bs-form-control type="email" ng-model="email" label="Email" placeholder="Email">
+            <input bs-form-control type="password" ng-model="pass" label="Password"   placeholder="Password">
+            <switch  bs-form-control label="Remember Me?"
+                     label-class="col-xs-8 col-sm-8 col-lg-8"
+                     class="col-xs-4 col-sm-4 col-lg-4"  ng-model="remember">
+            </switch>
+            <br>
+            <button class="btn btn-primary btn-lg btn-block outline" ng-click="login()" type="submit">
+                Sign in
+            </button>
+        </div>
     </form>
 
 
