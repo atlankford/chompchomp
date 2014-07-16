@@ -50,7 +50,6 @@ angular.module('myApp.routes', ['ngRoute'])
 
         });
         $routeProvider.when('/kitchen', {
-            authRequired: true, // must authenticate before viewing this page
             templateUrl: 'partials/kitchen.html'
 
         });
@@ -69,10 +68,12 @@ angular.module('myApp.routes', ['ngRoute'])
 
         });
         $routeProvider.when('/kitchen-touch', {
+            authRequired: true, // must authenticate before viewing this page
             templateUrl: 'partials/kitchen-touch.html'
 
         });
         $routeProvider.when('/archive', {
+            authRequired: true, // must authenticate before viewing this page
             templateUrl: 'partials/archived-orders.html'
 
         });
