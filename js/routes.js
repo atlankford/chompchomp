@@ -21,6 +21,10 @@ angular.module('myApp.routes', ['ngRoute'])
             templateUrl: 'partials/account.html',
             controller: 'AccountCtrl'
         });
+        $routeProvider.when('/waitlist', {
+            authRequired: true, // must authenticate before viewing this page
+            templateUrl: 'partials/waitlist.html'
+        });
         $routeProvider.when('/order', {
             authRequired: true, // must authenticate before viewing this page
             templateUrl: 'partials/order.html'

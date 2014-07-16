@@ -85,6 +85,71 @@ angular.module('myApp.controllers', [])
         //TODO
     }]) //end dashboard controller
 
+    .controller('WaitlistCtrl', ['$scope', '$firebase', 'syncData', function($scope, $firebase, syncData) {
+
+        $scope.waitingList = "";
+        var ref = new Firebase('https://chompchomp.firebaseio.com/LOCATION/1/WAITLIST');
+
+        $scope.waitingList  = syncData('LOCATION/1/WAITLIST', 10);
+
+
+        $scope.name = '';
+        $scope.partySize = '';
+        $scope.tel = '';
+
+        $scope.add = function (x,y,z)
+        {
+            var time = $scope.startTime();
+
+            ref.push({name: x, size: y, tel: z, time: time});
+            $scope.name = '';
+            $scope.partySize = '';
+            $scope.tel = '';
+        };
+
+
+        $scope.deleteItem = function(x) {
+
+         var customer = ref.child(x)
+         customer.remove();
+
+        };
+
+        $scope.checkTime = function(i){
+            if (i < 10)
+            {
+                i = "0" + i;
+            }
+            return i;
+        };
+
+        $scope.startTime = function() {
+            var today = new Date();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+
+            // add a zero in front of numbers<10
+            m = checkTime(m);
+            s = checkTime(s);
+
+            //Check for PM and AM
+            var day_or_night = (h > 11) ? "PM" : "AM";
+
+            //Convert to 12 hours system
+            if (h > 12)
+                h -= 12;
+
+            //Add time to the headline and update every 500 milliseconds
+            $scope.time = (h + ":" + m + ":" + s + " " + day_or_night);
+//            setTimeout(function() {
+//                $scope.startTime()
+//            }, 500);
+            return $scope.time;
+        };
+
+    }]) //end dashboard controller
+
     .controller('CustomerViewCtrl', ['$scope', '$firebase', function($scope,  $firebase) {
 
         var ref = new Firebase('https://chompchomp.firebaseio.com');
@@ -443,7 +508,6 @@ angular.module('myApp.controllers', [])
     .controller('SmsCtrl',['$scope', '$firebase', 'FBURL', function($scope, $firebase, FBURL) {
 
         var ref = new Firebase('https://chompchomp.firebaseio.com/LOCATION/1/GENERAL_SMS');
-
 
         $scope.tel = '';
         $scope.message = '';

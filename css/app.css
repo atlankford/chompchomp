@@ -14,8 +14,11 @@
     font-family: type;
     src: url(fonts/ATypewriterForMe.ttf)format('truetype');
 }
-
-
+@font-face
+{
+    font-family: lcd;
+    src: url(fonts/lcd.ttf)format('truetype');
+}
 .hide {
     display: none;
 }
@@ -648,8 +651,8 @@ text-align: right;
 
 
 .archive-table{
-    background-color: white;
-    color: black;
+    /*background-color: #2b3e50;*/
+    /*color: black;*/
     width: 100%;
 }
 
@@ -663,7 +666,7 @@ text-align: right;
 }
 
 .archive-table-col{
-    width: 20%;
+    /*width: 20%;*/
     border: 1px #ccc solid;
     text-align: center;
 }
@@ -688,4 +691,13 @@ a.food{
 
 a.food:hover{
     background-color: #c6c6c6;
+}
+
+.time{
+    font-family: lcd;
+    font-size: 42pt;
+}
+
+.panel-body{
+    background-color: #f9f9f9;
 }
