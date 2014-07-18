@@ -1222,3 +1222,19 @@ a{
     font-family: type;
     font-size: 32px;
 }
+
+.special-input{
+    background-color: #f9f9f9;
+    color: #282422;
+    font-size: 24pt;
+    line-height: 1.5;
+    padding: 5px;
+}
+
+.order-panel{
+ font-size: 18px;
+}
+
+.customer-info{
+    font-size: 18px;
+}

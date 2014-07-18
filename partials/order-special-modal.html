@@ -11,7 +11,8 @@
             <button type="button " ng-repeat="side in sides" class="btn btn-success btn-lg pad-mods" ng-click="selected.side = side">{{ side }}</button>&nbsp;
         </div>
         <hr/>
-        <textarea rows="4" ng-model="selected.modString" id="modString">{{ selected.modString }}</textarea>
+        <input class="special-input" rows="4" ng-model="selected.modString" id="modString"/>
+        <br>
         <div class="">
             <button type="button" ng-repeat="type in modTypes" class="btn btn-warning btn-lg pad-mods" ng-click="selected.modString = selected.modString + type">{{ type }}</button>
         </div>

@@ -233,7 +233,9 @@ a.dashboard{
 
 .menu-item{
     margin: 5px;
-    width: 90px;
+    font-size: 20pt;
+    width: 125px;
+    height: 100px;
 }
 
 
@@ -594,6 +596,7 @@ text-align: right;
 }
 .pad-mods{
     margin: 5px;
+    font-size: 19pt;
 }
 
 #modString{

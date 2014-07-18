@@ -19,7 +19,7 @@
                 <a class="btn btn-default" href="#Tab3" toggle="on" active-class="active">Review
                 </a>
             </div>
-            <div class="tab-content">
+            <div class="tab-content order-panel">
                 <div class="tab-pane" toggleable active-class="active" default="active" id="Tab1" exclusion-group="myTabs">
                     <div class="list-group" toggle="off" >
                         <br>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="tab-pane" toggleable active-class="active" id="Tab2" exclusion-group="myTabs">
+                <div class="tab-pane customer-info" toggleable active-class="active" id="Tab2" exclusion-group="myTabs">
                     <br>
 
                     <input
@@ -46,33 +46,36 @@
                             type="text"
                             ng-model="customer"
                             label="Name"
-                            label-class="col-xs-4 col-sm-4 col-lg-4"
+                            label-class="col-xs-4 col-sm-4 col-lg-4 customer-info"
                             class="col-xs-8 col-sm-8 col-lg-8"
                             placeholder="Customer Name"
                             />
+                    <br>
                     <switch
                             bs-form-control
                             ng-model="togo"
                             label="To Go?"
-                            label-class="col-xs-6 col-sm-6 col-lg-6"
+                            label-class="col-xs-6 col-sm-6 col-lg-6 customer-info"
                             class="col-xs-6 col-sm-6 col-lg-6"
                             >
                     </switch>
+                    <br>
                     <switch
                             bs-form-control
                             ng-model="sms"
                             label="SMS?"
-                            label-class="col-xs-6 col-sm-6 col-lg-6"
+                            label-class="col-xs-6 col-sm-6 col-lg-6 customer-info"
                             class="col-xs-6 col-sm-6 col-lg-6"
                             >
                     </switch>
+                    <br>
                     <div ng-show="sms">
                         <input
                                 bs-form-control
                                 type="tel"
                                 ng-model="phone"
                                 label="Tel"
-                                label-class="col-xs-4 col-sm-4 col-lg-4"
+                                label-class="col-xs-4 col-sm-4 col-lg-4 customer-info"
                                 class="col-xs-8 col-sm-8 col-lg-8"
                                 placeholder="Phone Number"
                                 />
