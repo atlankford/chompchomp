@@ -1,6 +1,6 @@
 <div ng-controller="KitchenTouchCtrl">
     <div class="orderContainer">
-        <div class="order-ticket" ng-repeat="(key,item) in orders | limitTo: 5 ">
+        <div class="order-ticket" ng-class="{togoticket: item.togo == 'TO-GO'}" ng-repeat="(key,item) in orders | limitTo: 5 ">
             <div class="row" >
                 <div class="col-md-6">
                     <p class="item-id">{{item.id}}</p>
@@ -11,7 +11,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <p class="item-customer ">{{item.customer}}</p>
+                    <p class="item-customer ">{{item.customer}}<span class="item-time text-danger pull-right">{{item.time.substring(17,22)}}</span></p>
                 </div>
             </div>
             <div class="row" ng-repeat="i in item.ITEM" >

@@ -1242,6 +1242,10 @@ a{
 .btn{
     font-size: 20px;
 }
-.order-tab a{
-    font-size: 20px; !important;
+.order-tab a {
+    font-size: 20pt !important;
+}
+
+.togoticket{
+   background-color: rgba(67, 67, 73, 1);
 }
