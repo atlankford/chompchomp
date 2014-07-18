@@ -99,9 +99,9 @@
         //Convert to 12 hours system
         if (h > 12)
             h -= 12;
-
+        //add [+ ":" + s] after m to add seconds
         //Add time to the headline and update every 500 milliseconds
-        $('#time').html(h + ":" + m + ":" + s + " " + day_or_night);
+        $('#time').html(h + ":" + m  + " " + day_or_night);
         setTimeout(function() {
             startTime()
         }, 500);
