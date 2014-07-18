@@ -328,7 +328,7 @@ tr{
 .order-up-button{
     margin-left: 10px;
     padding-bottom: 5px;
-    width: 190px;
+    width: 200px;
     height: 100px;
     position: absolute;
     bottom: 10px;
@@ -545,7 +545,8 @@ height: 140%;
     font-size: 20px;
     color: #ff7319;
     text-align: right;
-    padding-right: 5px
+    padding-right: 5px;
+    font-weight: 500;
 
 }
 .item-customer{
